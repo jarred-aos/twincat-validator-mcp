@@ -35,6 +35,8 @@ License: MIT
 Version: 1.0.0
 """
 import json
+import glob
+import pathlib
 
 # ============================================================================
 # REGISTER ALL RESOURCES AND TOOLS
@@ -60,18 +62,23 @@ def main():
     )
     logger = logging.getLogger(__name__)
 
-    input_filepath = r"C:\Users\jarredb\Documents\PLC\twincat-aw5_testing\Twincat_AW5\AW5\01_WeldingAxes\Motion_Functions\FB_THREE_AXIS_ABSOLUTE_MOVE.TcPOU"
+    base_filepath = "C:\\Users\\jarredb\\Documents\\PLC\\twincat-aw5-testing"
+    file_extensions = [".TcPOU", ".TcIO", ".TcDUT", ".TcGVL"]
 
-    logger.info("Starting file validation")
-    response = validate_file(input_filepath)
-    response = json.loads(response)
-    logger.info(json.dumps(response['issues'], indent=2))
-    logger.info("Starting file autofix")
-    response = autofix_file(input_filepath)
-    
-    logger.info(response)
-    logger.info("Completed file validation")
-    # mcp.run(transport="stdio")
+    for file_extension in file_extensions:
+        logger.info(file_extension)
+        files_recursive = glob.glob(f"**/*{file_extension}", root_dir=base_filepath, recursive=True)
+
+        logger.info(files_recursive)
+
+        for file in files_recursive:
+            logger.info("Starting file validation")
+            response = validate_file(f"{base_filepath}\\{file}")
+            logger.info(response)
+            logger.info("Starting file autofix")
+            response = autofix_file(f"{base_filepath}\\{file}", create_backup=False)
+            logger.info(response)
+            logger.info("Completed file validation")
 
 if __name__ == "__main__":
     main()
