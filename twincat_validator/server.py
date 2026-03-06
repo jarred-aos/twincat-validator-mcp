@@ -209,8 +209,7 @@ def main():
     logger.info(f"Auto-fix capabilities: {config.server_info['auto_fix_capabilities']}")
     logger.info("Server ready to accept connections")
 
-    mcp.run(transport="stdio")
-
+    # mcp.run(transport="stdio")
 
 if __name__ == "__main__":
     main()
