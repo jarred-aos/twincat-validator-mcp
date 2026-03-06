@@ -3,8 +3,8 @@
 TwinCAT Validator MCP Server — thin facade.
 
 The real implementation lives in the sub-modules:
-- mcp_app.py          — FastMCP instance, config, engines, constants
-- mcp_responses.py    — response envelope helpers
+- typer_configuration.py          — FastMCP instance, config, engines, constants
+- typer_responses.py    — response envelope helpers
 - _server_helpers.py  — all private helper functions
 - mcp_resources.py    — @mcp.resource handlers
 - mcp_tools_validation.py — validate_file, validate_for_import, check_specific,
@@ -34,16 +34,17 @@ Author: Jaime Calvente Mieres
 License: MIT
 Version: 1.0.0
 """
-import json
 import glob
-import pathlib
+import typer
 
 # ============================================================================
 # REGISTER ALL RESOURCES AND TOOLS
 # ============================================================================
 
-from twincat_validator.tui_tools_validation import validate_file
-from twincat_validator.tui_tools_fix import autofix_file
+from twincat_validator.typer_app import app
+
+#from twincat_validator.typer_tools_validation import validate_file
+#from twincat_validator.typer_tools_fix import autofix_file
 # from twincat_validator.mcp_tools_batch import register_batch_tools
 # from twincat_validator.mcp_tools_orchestration import register_orchestration_tools
 
@@ -51,7 +52,6 @@ from twincat_validator.tui_tools_fix import autofix_file
 # ============================================================================
 # SERVER STARTUP
 # ============================================================================
-
 
 def main():
     """Entry point for console script and python -m invocation."""
@@ -62,6 +62,9 @@ def main():
     )
     logger = logging.getLogger(__name__)
 
+    app()
+
+    """
     base_filepath = "C:\\Users\\jarredb\\Documents\\PLC\\twincat-aw5-testing"
     file_extensions = [".TcPOU", ".TcIO", ".TcDUT", ".TcGVL"]
 
@@ -79,6 +82,7 @@ def main():
             response = autofix_file(f"{base_filepath}\\{file}", create_backup=False)
             logger.info(response)
             logger.info("Completed file validation")
+    """
 
 if __name__ == "__main__":
     main()

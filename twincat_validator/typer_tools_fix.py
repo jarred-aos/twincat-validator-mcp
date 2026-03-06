@@ -8,6 +8,8 @@ Tools registered here:
 
 import time
 import re
+import typer
+
 from typing import Optional
 
 from twincat_validator import TwinCATFile
@@ -39,20 +41,21 @@ from twincat_validator._server_helpers import (
     _validate_format_profile,
     _validate_profile,
 )
-from twincat_validator.mcp_app import (
+from twincat_validator.typer_configuration import (
     DEFAULT_ENFORCEMENT_MODE,
     ERROR_SEVERITIES,
     SUPPORTED_POU_SUBTYPES,
     config,
     fix_engine,
-    mcp,
     validation_engine,
 )
-from twincat_validator.mcp_responses import _tool_error, _with_meta, unresolved_policy_fields
+from twincat_validator.typer_responses import _tool_error, _with_meta, unresolved_policy_fields
 from twincat_validator.result_contract import derive_contract_state
 from twincat_validator.utils import _VALID_INTENT_PROFILES, _resolve_intent_profile
 
+app = typer.Typer()
 
+@app.command()
 def autofix_file(
     file_path: str,
     create_backup: bool = True,
@@ -423,7 +426,7 @@ def autofix_file(
             error_kwargs.update(unresolved_policy_fields(enforcement_mode))
         return _tool_error(str(e), file_path=file_path, start_time=_t0, **error_kwargs)
 
-
+@app.command()
 def generate_skeleton(
     file_type: str,
     subtype: Optional[str] = None,
@@ -472,7 +475,7 @@ def generate_skeleton(
     }
     return _with_meta(result, _t0, execution_context=ctx)
 
-
+@app.command()
 def extract_methods_to_xml(file_path: str, create_backup: bool = True) -> str:
     """Promote inline METHOD blocks from main ST to <Method> XML elements.
 

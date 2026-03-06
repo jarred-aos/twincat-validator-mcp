@@ -18,8 +18,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
 
-# Severity levels that count as errors (must mirror mcp_app.ERROR_SEVERITIES).
-# Defined here to avoid a circular import with mcp_app.
+# Severity levels that count as errors (must mirror typer_configuration.ERROR_SEVERITIES).
+# Defined here to avoid a circular import with typer_configuration.
 _ERROR_SEVERITIES: frozenset[str] = frozenset({"error", "critical"})
 
 

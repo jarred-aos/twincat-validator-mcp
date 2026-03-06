@@ -6,7 +6,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from twincat_validator.mcp_responses import _tool_error, _with_meta, with_policy_proof
+from twincat_validator.typer_responses import _tool_error, _with_meta, with_policy_proof
 from twincat_validator.policy_context import ExecutionContext
 
 

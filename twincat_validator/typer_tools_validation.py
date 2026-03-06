@@ -12,6 +12,8 @@ import json
 import time
 import logging
 
+import typer
+
 from twincat_validator import CheckRegistry, TwinCATFile
 from twincat_validator._server_helpers import (
     _apply_known_limitation_tags,
@@ -22,17 +24,20 @@ from twincat_validator._server_helpers import (
     _validate_file_path,
     _validate_profile,
 )
-from twincat_validator.mcp_app import (
+from twincat_validator.typer_configuration import (
     DEFAULT_ENFORCEMENT_MODE,
     config,
     validation_engine,
 )
-from twincat_validator.mcp_responses import _tool_error, _with_meta, unresolved_policy_fields
+from twincat_validator.typer_responses import _tool_error, _with_meta, unresolved_policy_fields
 from twincat_validator.snippet_extractor import infer_issue_location
 from twincat_validator.utils import _VALID_INTENT_PROFILES, _resolve_intent_profile
 
 logger = logging.getLogger(__name__)
 
+app = typer.Typer()
+
+@app.command()
 def validate_file(
     file_path: str,
     validation_level: str = "all",
@@ -122,7 +127,7 @@ def validate_file(
             **error_kwargs,
         )
 
-
+@app.command()
 def validate_for_import(
     file_path: str, enforcement_mode: str = DEFAULT_ENFORCEMENT_MODE
 ) -> str:
@@ -178,7 +183,7 @@ def validate_for_import(
             **error_kwargs,
         )
 
-
+@app.command()
 def check_specific(
     file_path: str,
     check_names: list[str],
@@ -309,7 +314,7 @@ def check_specific(
             **error_kwargs,
         )
 
-
+@app.command()
 def get_validation_summary(file_path: str) -> str:
     """Get high-level file quality summary with health score.
 
@@ -370,7 +375,7 @@ def get_validation_summary(file_path: str) -> str:
     except Exception as e:
         return _tool_error(str(e), file_path=file_path, start_time=_t0)
 
-
+@app.command()
 def suggest_fixes(validation_result: str) -> str:
     """Generate prioritized fix recommendations from validation results.
 

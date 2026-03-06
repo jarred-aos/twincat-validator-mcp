@@ -1,10 +1,10 @@
 """Private helper functions shared by all MCP tool modules.
 
 This module contains all non-decorated helper functions extracted from the
-original monolithic server.py. It imports shared state from mcp_app and
-response helpers from mcp_responses.
+original monolithic server.py. It imports shared state from typer_configuration and
+response helpers from typer_responses.
 
-Import order: mcp_app → mcp_responses → _server_helpers → mcp_tools_*
+Import order: typer_configuration → typer_responses → _server_helpers → mcp_tools_*
 """
 
 import hashlib
@@ -20,7 +20,7 @@ from twincat_validator.policy_context import (
     compute_policy_fingerprint,
     resolve_execution_context,
 )
-from twincat_validator.mcp_app import (
+from twincat_validator.typer_configuration import (
     POLICY_RESPONSE_VERSION,
     SUPPORTED_POU_SUBTYPES,
     VALID_FORMAT_PROFILES,
@@ -28,7 +28,7 @@ from twincat_validator.mcp_app import (
     _LOOP_GUARD_STATE,
     config,
 )
-from twincat_validator.mcp_responses import _build_meta, _tool_error  # noqa: F401
+from twincat_validator.typer_responses import _build_meta, _tool_error  # noqa: F401
 from twincat_validator.result_contract import derive_contract_state
 from twincat_validator.snippet_extractor import infer_issue_location
 

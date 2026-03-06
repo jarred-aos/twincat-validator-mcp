@@ -13,7 +13,7 @@ import time
 from datetime import datetime
 from typing import Optional
 
-from twincat_validator.mcp_app import POLICY_RESPONSE_VERSION, SERVER_INFO
+from twincat_validator.typer_configuration import POLICY_RESPONSE_VERSION, SERVER_INFO
 from twincat_validator.policy_context import ExecutionContext
 
 

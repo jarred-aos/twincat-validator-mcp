@@ -4,14 +4,14 @@ This module creates the FastMCP instance and initializes all shared objects
 (config, validation engine, fix engine) that tool and resource modules import.
 
 Import order:
-    mcp_app  ← no dependencies on other mcp_* modules
-    mcp_responses  ← no dependencies on other mcp_* modules
-    mcp_tools_*  ← depend on mcp_app and mcp_responses
-    mcp_resources  ← depend on mcp_app
+    typer_configuration  ← no dependencies on other mcp_* modules
+    typer_responses  ← no dependencies on other mcp_* modules
+    mcp_tools_*  ← depend on typer_configuration and typer_responses
+    mcp_resources  ← depend on typer_configuration
     server  ← facade, imports all of the above
 """
 
-from mcp.server.fastmcp import FastMCP
+import typer
 
 from twincat_validator import ValidationEngine, FixEngine, TwinCATFile, CheckRegistry  # noqa: F401
 from twincat_validator.config_loader import get_shared_config
@@ -20,17 +20,6 @@ from twincat_validator.exceptions import (  # noqa: F401
     ConfigurationError,
     CheckNotFoundError,
 )
-
-# ============================================================================
-# MCP SERVER INSTANCE
-# ============================================================================
-
-mcp = FastMCP("TwinCAT Validator", dependencies=[])
-
-# Register MCP prompts (workflow templates for LLM clients)
-from twincat_validator.prompts import register_prompts  # noqa: E402
-
-register_prompts(mcp)
 
 # ============================================================================
 # SHARED STATE

@@ -551,7 +551,7 @@ class TestStructureCheckerDeduplication:
 
     def test_umbrella_excluded_from_default_all_level(self):
         """pou_structure must not appear in the default 'all' check list (RC-3)."""
-        from twincat_validator.mcp_app import config
+        from twincat_validator.typer_configuration import config
         from twincat_validator.engines import ValidationEngine
 
         engine = ValidationEngine(config)
@@ -563,7 +563,7 @@ class TestStructureCheckerDeduplication:
 
     def test_umbrella_excluded_from_critical_level(self):
         """pou_structure must not appear in the 'critical' check list (RC-3)."""
-        from twincat_validator.mcp_app import config
+        from twincat_validator.typer_configuration import config
         from twincat_validator.engines import ValidationEngine
 
         engine = ValidationEngine(config)
@@ -574,7 +574,7 @@ class TestStructureCheckerDeduplication:
 
     def test_sub_checks_present_in_all_level(self):
         """Sub-checks must still be in the 'all' default list (regression guard)."""
-        from twincat_validator.mcp_app import config
+        from twincat_validator.typer_configuration import config
         from twincat_validator.engines import ValidationEngine
 
         engine = ValidationEngine(config)
@@ -634,7 +634,7 @@ class TestStructureCheckerDeduplication:
 
     def test_umbrella_alias_flag_in_config(self):
         """validation_rules.json must have umbrella_alias=true on pou_structure entry."""
-        from twincat_validator.mcp_app import config
+        from twincat_validator.typer_configuration import config
 
         check_def = config.validation_checks.get("pou_structure", {})
         assert check_def.get("umbrella_alias") is True, (
